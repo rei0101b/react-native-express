@@ -1,42 +1,49 @@
 import React, { Component } from 'react'
-import { AppRegistry, ScrollView, View, StyleSheet } from 'react-native'
+import { FlatList, Text, StyleSheet } from 'react-native'
+
+const rows = [
+  {id: 0, text: 'View'},
+  {id: 1, text: 'Text'},
+  {id: 2, text: 'Image'},
+  {id: 3, text: 'ScrollView'},
+  {id: 4, text: 'ListView'},
+]
+
+const extractKey = ({id}) => id
 
 class App extends Component {
-  render() {
+
+  renderItem = ({item}) => {
+    console.log(item);
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.boxLarge} />
-        <ScrollView horizontal>
-          <View style={styles.boxSmall}/>
-          <View style={styles.boxSmall}/>
-          <View style={styles.boxSmall}/>
-        </ScrollView>
-        <View style={styles.boxLarge} />
-        <View style={styles.boxSmall} />
-        <View style={styles.boxLarge} />
-      </ScrollView>
+      <Text style={styles.row}>
+        {item.text}
+      </Text>
     )
+  }
+
+  render() {
+    return(
+      <FlatList
+        style={styles.container}
+        data={rows}
+        renderItem={this.renderItem}
+        keyExtractor={extractKey}
+      />
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flex: 1,
-    backgroundColor: 'pink',
   },
-  boxSmall: {
-    width: 200,
-    height: 200,
-    marginBottom: 10,
-    marginRight: 10,
+  row: {
+    padding: 15,
+    marginBottom: 5,
     backgroundColor: 'skyblue',
-  },
-  boxLarge: {
-    width: 300,
-    height: 300,
-    marginBottom: 10,
-    marginRight: 10,
-    backgroundColor: 'steelblue',
-  },
+  }
 })
-export default AppRegistry.registerComponent(App)
+
+export default App
