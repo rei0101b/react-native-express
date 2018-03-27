@@ -1,22 +1,42 @@
 import React, { Component } from 'react'
-import { AppRegistry, Image, StyleSheet } from 'react-native'
+import { AppRegistry, ScrollView, View, StyleSheet } from 'react-native'
 
 class App extends Component {
   render() {
     return (
-      <Image
-        style={styles.image}
-        source={{uri: 'http://www.reactnativeexpress.com/logo.png'}}
-      />
+      <ScrollView style={styles.container}>
+        <View style={styles.boxLarge} />
+        <ScrollView horizontal>
+          <View style={styles.boxSmall}/>
+          <View style={styles.boxSmall}/>
+          <View style={styles.boxSmall}/>
+        </ScrollView>
+        <View style={styles.boxLarge} />
+        <View style={styles.boxSmall} />
+        <View style={styles.boxLarge} />
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  image: {
+  container: {
+    flex: 1,
+    backgroundColor: 'pink',
+  },
+  boxSmall: {
     width: 200,
     height: 200,
+    marginBottom: 10,
+    marginRight: 10,
+    backgroundColor: 'skyblue',
+  },
+  boxLarge: {
+    width: 300,
+    height: 300,
+    marginBottom: 10,
+    marginRight: 10,
+    backgroundColor: 'steelblue',
   },
 })
-
 export default AppRegistry.registerComponent(App)
