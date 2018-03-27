@@ -1,89 +1,49 @@
 import React, { Component } from 'react'
-import { SectionList, Text, StyleSheet } from 'react-native'
+import { AppRegistry, View } from 'react-native'
 
-const sections = [
-  {
-    id: 0,
-    title: 'Basic Components',
-    data: [
-      {id: 0, text: 'View'},
-      {id: 1, text: 'Text'},
-      {id: 2, text: 'Image'},
-    ],
-    renderItem: ({item}) => {
-      return (
-        <Text style={styles.row}>
-          {item.text}
-        </Text>
-      )
-    }
-  },
-  {
-    id: 1,
-    title: 'list Components',
-    data: [
-      {id: 3, text: 'ScrollView'},
-      {id: 4, text: 'ListView'},
-    ],
-    renderItem: ({item}) => {
-      return (
-        <Text style={styles.rowDark}>
-          {item.text}
-        </Text>
-      )
-    }
-  }
-]
-
-const extractKey = ({id}) => id
+import Title from './Title'
+import Input from './Input'
+import List from './List'
 
 class App extends Component {
+  state = {
+    todos: ['Click to remove', 'Learn react Native', 'Write Code', 'Ship App'],
+  }
 
-  renderSectionHeader = ({section}) => {
-    console.log('renderSection');
-    return (
-      <Text style={styles.header}>
-        {section.title}
-      </Text>
-    )
+  onAddToDo = (text) => {
+    console.log(text);
+    const {todos} = this.state
+    this.setState({
+      todos: [text, ...todos],
+    })
+  }
+
+  onRemoveTodo = (index) => {
+    const{todos} = this.state
+    console.log(todos, index);
+    this.setState({
+      todos: todos.filter((todo, i) => i !== index),
+    })
   }
 
   render() {
+    const {todos} = this.state
     return(
-      <SectionList
-        style={styles.container}
-        sections={sections}
-        renderSectionHeader={this.renderSectionHeader}
-        keyExtractor={extractKey}
-      />
-    );
+      <View>
+        <Title>
+          To-Do List
+        </Title>
+        <Input
+          placeholder={'Type a todo, then hit enter'}
+          onSubmitEditing={(text) => this.onAddToDo(text)}
+        />
+        <List
+          list={todos}
+          onPressItem={(index) => this.onRemoveTodo(index)}
+        />
+      </View>
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    flex: 1,
-  },
-  row: {
-    padding: 15,
-    marginBottom: 5,
-    backgroundColor: 'skyblue',
-  },
-  rowDark: {
-    padding: 15,
-    marginBottom: 5,
-    backgroundColor: 'darkblue',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  header: {
-    padding: 15,
-    marginBottom: 5,
-    backgroundColor: 'steelblue',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-})
 
 export default App
