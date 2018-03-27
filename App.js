@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
-import { FlatList, Text, StyleSheet } from 'react-native'
+import { SectionList, Text, StyleSheet } from 'react-native'
 
-const rows = [
-  {id: 0, text: 'View'},
-  {id: 1, text: 'Text'},
-  {id: 2, text: 'Image'},
-  {id: 3, text: 'ScrollView'},
-  {id: 4, text: 'ListView'},
+const sections = [
+  {
+    id: 0,
+    title: 'Basic Components',
+    data: [
+      {id: 0, text: 'View'},
+      {id: 1, text: 'Text'},
+      {id: 2, text: 'Image'},
+    ]
+  },
+  {
+    id: 1,
+    title: 'List Components',
+    data: [
+      {id: 3, text: 'ScrollView'},
+      {id: 4, text: 'ListView'},
+    ]
+  }
 ]
 
 const extractKey = ({id}) => id
@@ -14,7 +26,7 @@ const extractKey = ({id}) => id
 class App extends Component {
 
   renderItem = ({item}) => {
-    console.log(item);
+    console.log('renderItem');
     return (
       <Text style={styles.row}>
         {item.text}
@@ -22,12 +34,22 @@ class App extends Component {
     )
   }
 
+  renderSectionHeader = ({section}) => {
+    console.log('renderSection');
+    return (
+      <Text style={styles.header}>
+        {section.title}
+      </Text>
+    )
+  }
+
   render() {
     return(
-      <FlatList
+      <SectionList
         style={styles.container}
-        data={rows}
+        sections={sections}
         renderItem={this.renderItem}
+        renderSectionHeader={this.renderSectionHeader}
         keyExtractor={extractKey}
       />
     );
@@ -43,7 +65,14 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 5,
     backgroundColor: 'skyblue',
-  }
+  },
+  header: {
+    padding: 15,
+    marginBottom: 5,
+    backgroundColor: 'steelblue',
+    color: 'white',
+    fontWeight: 'bold',
+  },
 })
 
 export default App
